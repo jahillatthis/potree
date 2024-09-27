@@ -7,28 +7,26 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Potree Viewer</title>
 
-	<link rel="stylesheet" type="text/css" href="../build/potree/potree.css">
-	<link rel="stylesheet" type="text/css" href="../libs/jquery-ui/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" href="../libs/openlayers3/ol.css">
-	<link rel="stylesheet" type="text/css" href="../libs/spectrum/spectrum.css">
-	<link rel="stylesheet" type="text/css" href="../libs/jstree/themes/mixed/style.css">
+	<link rel="stylesheet" type="text/css" href="./libs/potree/potree.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jquery-ui/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
+	<link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jstree/themes/mixed/style.css">
 </head>
 
 <body>
-	<script src="../libs/jquery/jquery-3.1.1.min.js"></script>
-	<script src="../libs/spectrum/spectrum.js"></script>
-	<script src="../libs/jquery-ui/jquery-ui.min.js"></script>
-	
-	
-	<script src="../libs/other/BinaryHeap.js"></script>
-	<script src="../libs/tween/tween.min.js"></script>
-	<script src="../libs/d3/d3.js"></script>
-	<script src="../libs/proj4/proj4.js"></script>
-	<script src="../libs/openlayers3/ol.js"></script>
-	<script src="../libs/i18next/i18next.js"></script>
-	<script src="../libs/jstree/jstree.js"></script>
-	<script src="../build/potree/potree.js"></script>
-	<script src="../libs/plasio/js/laslaz.js"></script>
+	<script src="./libs/jquery/jquery-3.1.1.min.js"></script>
+	<script src="./libs/spectrum/spectrum.js"></script>
+	<script src="./libs/jquery-ui/jquery-ui.min.js"></script>
+	<script src="./libs/other/BinaryHeap.js"></script>
+	<script src="./libs/tween/tween.min.js"></script>
+	<script src="./libs/d3/d3.js"></script>
+	<script src="./libs/proj4/proj4.js"></script>
+	<script src="./libs/openlayers3/ol.js"></script>
+	<script src="./libs/i18next/i18next.js"></script>
+	<script src="./libs/jstree/jstree.js"></script>
+	<script src="./libs/potree/potree.js"></script>
+	<script src="./libs/plasio/js/laslaz.js"></script>
 	
 	<!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
 	<!-- INCLUDE SETTINGS HERE -->
@@ -38,27 +36,29 @@
 		<div id="potree_sidebar_container"> </div>
 	</div>
 	
-	<script type="module">
-
+	<script>
+	
 		window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
 		
-		viewer.setEDLEnabled(false);
+		viewer.setEDLEnabled(true);
 		viewer.setFOV(60);
-		viewer.setPointBudget(1_000_000);
+		viewer.setPointBudget(2_000_000);
+		<!-- INCLUDE SETTINGS HERE -->
 		viewer.loadSettingsFromURL();
-		viewer.setBackground("skybox");
 		
-		viewer.setDescription("Point cloud courtesy of <a target='_blank' href='https://www.sigeom.ch/'>sigeom sa</a>");
+		viewer.setDescription("");
 		
 		viewer.loadGUI(() => {
 			viewer.setLanguage('en');
+			$("#menu_appearance").next().show();
 			$("#menu_tools").next().show();
 			$("#menu_clipping").next().show();
 			viewer.toggleSidebar();
 		});
 		
-		// Load and add point cloud to scene
-		Potree.loadPointCloud("../pointclouds/vol_total/cloud.js", "sigeom.sa", e => {
+		
+
+		Potree.loadPointCloud("./pointclouds/cliff/metadata.json", "cliff", e => {
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			
@@ -66,18 +66,18 @@
 			material.size = 1;
 			material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
 			material.shape = Potree.PointShape.SQUARE;
+			material.activeAttributeName = "rgba";
 			
 			scene.addPointCloud(pointcloud);
 			
 			viewer.fitToScreen();
-			// scene.view.setView(
-			// 	[589974.341, 231698.397, 986.146],
-			// 	[589851.587, 231428.213, 715.634],
-			// );
 		});
 
+		
+		
 	</script>
 	
 	
   </body>
 </html>
+
